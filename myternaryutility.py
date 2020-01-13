@@ -25,7 +25,7 @@ class TernaryPlot:
     #                print 'range of %s is %.2f to %.2f' %((el,)+tuple(r))
             self.ax.set_axis_off()
             self.ax.set_aspect('equal')
-            self.ax.figure.hold('True')
+            #self.ax.figure.hold('True')
             self.ax.set_xlim(-.10, 1.10)
             self.ax.set_ylim(-.10, 1.10)
             
@@ -110,7 +110,7 @@ class TernaryPlot:
     def colorbar(self, label='', axrect=[0.86, 0.1, 0.04, 0.8], **kwargs):
         'Draws the colorbar and labels it'
         if self.mappable is None:
-            print 'no mappable to create colorbar'
+            print('no mappable to create colorbar')
             return
         else:            
             self.ax.figure.subplots_adjust(right=axrect[0]-.01)

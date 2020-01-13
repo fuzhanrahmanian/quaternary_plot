@@ -2,3 +2,12 @@
 .idea/
 *.pyc
 *.csv
+*.pck
+*.cfg
+.venv/
+venv/Scripts/activate
+venv/Scripts/activate.bat
+venv/Scripts/Activate.ps1
+venv/Scripts/deactivate.bat
+venv/Scripts/python.exe
+venv/Scripts/pythonw.exe

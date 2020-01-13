@@ -25,7 +25,7 @@ class QuaternaryPlot:
             
 #            if not ellabels is None:
 #                for el, r in zip(ellabels, self.rangelist):
-#                    print 'range of %s is %.2f to %.2f' %((el,)+tuple(r))
+#                    #print 'range of %s is %.2f to %.2f' %((el,)+tuple(r))
             self.ax.set_axis_off()
             self.ax.set_aspect('equal')
             self.ax.figure.hold('True')
@@ -84,7 +84,7 @@ class QuaternaryPlot:
 
     def toComp(self, xycoordlist, process=True, affine=True):
         'Given an array of triples of coords in 0-100, returns arrays of Cartesian x- and y- coords'
-#        print '*', xycoordlist
+#        #print '*', xycoordlist
         xycoordlist=numpy.float32(xycoordlist)
         if len(xycoordlist.shape)==1:
             xycoordlist=numpy.float32([xycoordlist])
@@ -104,26 +104,26 @@ class QuaternaryPlot:
             terncoordlist=self.invafftrans(numpy.float32([a, b, c, d]).T)
         else:
             terncoordlist=numpy.float32([a, b, c, d]).T
-#        print 'a', a
-#        print 'b', b
-#        print 'c', c
-#        print numpy.float32([a, b, c]).T
-#        print 'tcl', terncoordlist
+#        #print 'a', a
+#        #print 'b', b
+#        #print 'c', c
+#        #print numpy.float32([a, b, c]).T
+#        #print 'tcl', terncoordlist
         if process:
             terncoordlist=self.processterncoord(terncoordlist)
-#        print 'ptcl', terncoordlist
+#        #print 'ptcl', terncoordlist
         return terncoordlist
         
     def scatter(self, terncoordlist, **kwargs):
         if len(terncoordlist)==0:
-            print 'no data for scatter plot'
+            #print('no data for scatter plot')
             return
         (xs, ys, zs) = self.toCart(terncoordlist)
         self.mappable=self.ax.scatter(xs, ys, zs, **kwargs)
 
     def plot3D(self, terncoordlist, cols, **kwargs):
         if len(terncoordlist)==0:
-            print 'no data for scatter plot'
+            #print('no data for scatter plot')
             return
         (xs, ys, zs) = self.toCart(terncoordlist)
         for x, y, z, c in zip(xs, ys, zs, cols):
@@ -156,7 +156,7 @@ class QuaternaryPlot:
     def colorbar(self, label='', **kwargs):
         'Draws the colorbar and labels it'
         if self.mappable is None:
-            print 'no mappable to create colorbar'
+            #print('no mappable to create colorbar')
             return
         else:            
             #cb=pylab.colorbar()
@@ -210,7 +210,7 @@ class QuaternaryPlot:
                 c=numpy.abs(c)
             cs=None
             ternarylabelsx=ternarylabels or (numpy.abs(c)>rndzero).sum()>1
-            #print c, c!=0, (c!=0).sum()>1
+            ##print c, c!=0, (c!=0).sum()>1
             if not ternarylabelsx:
                 cs=t
             elif not self.ellabels is None:
@@ -231,7 +231,7 @@ class QuaternaryPlot:
 #                c=numpy.abs(c)
 #            cs=None
 #            ternarylabels=ternarylabels or (c!=0).sum()>1
-#            #print c, c!=0, (c!=0).sum()>1
+#            ##print c, c!=0, (c!=0).sum()>1
 #            if not ternarylabels:
 #                cs=t
 #            elif not self.ellabels is None:
@@ -242,26 +242,24 @@ class QuaternaryPlot:
 #                self.ax.text(x+xd, y+yd, cs, ha=ha, va=va, **kwargs)
         
     def grid(self, nintervals=4, fmtstr='%0.2f', takeabs=True, ternarylabels=False, printticklabels=True, **kwargs):#takeabs is to avoid a negative sign for ~0 negative compositions
-        lstyle = {'color': '0.6',
-         #'dashes': (1, 1),
-         'linewidth': 1.}
+        lstyle = {'color': '0.6','dashes': (1, 1),'linewidth': 1.}
         rot=[60, 0, 300]
         hal=['right', 'left', 'center']
         val=['center', 'center', 'top']
         xdel=[-1.*self.offset, self.offset, 0]
         ydel=[0, 0, -1.*self.offset]
         side=[1, 2, 0]
-        if isinstance(printticklabels, bool):
-            if printticklabels:
-                printticklabels=[True]*(nintervals-1)
+        if isinstance(printicklabels, bool):
+            if printicklabels:
+                printicklabels=[True]*(nintervals-1)
             else:
-                printticklabels=[False]*(nintervals-1)
-        elif isinstance(printticklabels, list) and not isinstance(printticklabels, bool):
-            printticklabels=[i in printticklabels for i in range(nintervals-1)]
+                printicklabels=[False]*(nintervals-1)
+        elif isinstance(printicklabels, list) and not isinstance(printicklabels, bool):
+            printicklabels=[i in printicklabels for i in range(nintervals-1)]
         n=nintervals
         ep=self.cartendpts
         for i, j, k, r, ha, va, xd, yd, s in zip([0, 1, 2], [1, 2, 0], [2, 0, 1], rot, hal, val, xdel, ydel, side):
-            for m, b in zip(range(1, n), printticklabels):
+            for m, b in zip(range(1, n), printicklabels):
                 x, y=((n-m)*ep[i]+m*ep[j])/n
                 xe, ye=((n-m)*ep[k]+m*ep[j])/n
                 self.ax.plot([x, xe], [y, ye], **lstyle)
@@ -272,7 +270,7 @@ class QuaternaryPlot:
                     c=numpy.abs(c)                    
                 cs=None
                 ternarylabels=ternarylabels or numpy.all(c!=0)
-                #print c, c!=0, numpy.all(c!=0)
+                ##print c, c!=0, numpy.all(c!=0)
                 if not ternarylabels:
                     cs=fmtstr %c[s]
                 elif not self.ellabels is None:
@@ -317,9 +315,9 @@ class QuaternaryPlot:
         terncoordlistproj=[numpy.append(c[:3]/(c[:3].sum()), self.rangelist[3][0]) for c in terncoordlist]
         (xs, ys, zs) = self.toCart(terncoordlistproj)
         i=numpy.argmin(xs+ys)
-        print terncoordlist[i], terncoordlist[i].sum()
-        print terncoordlistproj[i]
-        print xs[i], ys[i], zs[i]
+        #print terncoordlist[i], terncoordlist[i].sum()
+        #print terncoordlistproj[i]
+        #print xs[i], ys[i], zs[i]
         self.mappable=self.ax.scatter(xs, ys, zs, **kwargs)
         
 
