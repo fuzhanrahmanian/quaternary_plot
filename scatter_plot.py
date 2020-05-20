@@ -22,7 +22,7 @@ n_click = 0
 # Random color for picking
 for i in range(nrows):
     for j in range(ncols):
-        list = [random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1), 1]
+        list = [random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1), random.uniform(0,1)]
         color[i][j] = list
 subplot_pick_color = 0
 elements_of_subplot = 0
@@ -55,6 +55,7 @@ for i in range(0, nrows, 1):
         tf = ternaryfaces_shells(axis[i][j], elemnt_groups[i][j], nintervals=intervs)
         tf.label()
         # Saves all tthe picked data inside a list for the color changing
+        #comps --> comps[i][j]
         points_list.append(tf.scatter(comps, cols * 0, skipinds=[0, 1, 2, 3], s=None))
         # subplot_list.append(tf)
 
